@@ -13,7 +13,6 @@ import (
 )
 
 func main() {
-    // Load environment variables from .env file
     err := godotenv.Load()
     if err != nil {
         log.Println("No .env file found")
@@ -29,10 +28,11 @@ func main() {
     userHandler := &handler.UserHandler{Repo: userRepo}
     taskHandler := &handler.TaskHandler{Repo: taskRepo}
     projectHandler := &handler.ProjectHandler{Repo: projectRepo}
+    healthHandler := &handler.HealthHandler{}
 
     r := mux.NewRouter()
 
-    // Register routes
+    routes.RegisterHealthCheckRoutes(r, healthHandler)
     routes.RegisterUserRoutes(r, userHandler)
     routes.RegisterTaskRoutes(r, taskHandler)
     routes.RegisterProjectRoutes(r, projectHandler)
